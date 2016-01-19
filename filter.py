@@ -43,8 +43,7 @@ def filterDocument(filepath, destination_dir, filename, herblist, symptoms, prop
     msg = ''
 
     for line in iter(src_file):
-        string = line
-        words = string.split("|")
+        words = line.split("|")
         for word in words:
             if word in herblist:
                 msg = "herb : "+word
@@ -55,8 +54,7 @@ def filterDocument(filepath, destination_dir, filename, herblist, symptoms, prop
 
     if flagHerb:
         for line in iter(src_file):
-            string = line
-            words = string.split("|")
+            words = line.split("|")
             for word in words:
                 if word in symptoms:
                     msg = msg+", symp : "+word
@@ -68,8 +66,7 @@ def filterDocument(filepath, destination_dir, filename, herblist, symptoms, prop
 
     if flagHerb and not flagSymptoms:
         for line in iter(src_file):
-            string = line
-            words = string.split("|")
+            words = line.split("|")
             for word in words:
                 if word in propoties:
                     msg = msg+", prop : "+word
@@ -85,7 +82,7 @@ def filterDocument(filepath, destination_dir, filename, herblist, symptoms, prop
     elif flagHerb and flagProp:
         print msg,
     else:
-        print "not found",
+        print "not found : "+msg
 
 def main():
     herblist = readHerbList()
