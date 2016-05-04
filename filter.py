@@ -11,26 +11,19 @@ import csv
 
 def readHerbList():
     herblist = []
-    rows = csv.reader(open("./herblist.csv", "rb"))
+    rows = csv.reader(open("./herblist-21-04-16.csv", "rb"))
     for row in rows:
-        herblist.append(row[0].strip())
+        herblist.append(row[1].strip())
     return herblist
 
 def readSymptoms():
     symptoms = []
-    rows = csv.reader(open("./symptoms.csv", "rb"))
+    rows = csv.reader(open("./symptoms-21-04-16.csv", "rb"))
     for row in rows:
-        symptoms.append(row[0].strip())
+        symptoms.append(row[1].strip())
     return symptoms
 
-def readProperties():
-    propoties = []
-    rows = csv.reader(open("./properties.csv", "rb"))
-    for row in rows:
-        propoties.append(row[0].strip())
-    return propoties
-
-def filterDocument(filepath, destination_dir, filename, herblist, symptoms, propoties):
+def filterDocument(filepath, destination_dir, filename, herblist, symptoms):
     src_file = open(filepath+"/"+filename, 'r')
     src = filepath+"/"+filename
     dst = destination_dir+"/"+filename
@@ -64,22 +57,8 @@ def filterDocument(filepath, destination_dir, filename, herblist, symptoms, prop
             if flagSymptoms:
                 break
 
-    if flagHerb and not flagSymptoms:
-        for line in iter(src_file):
-            words = line.split("|")
-            for word in words:
-                if word in propoties:
-                    msg = msg+", prop : "+word
-                    flagProp = True
-                    copyfile(src, dst)
-                    break
-            if flagProp:
-                break
-
     src_file.close()
     if flagHerb and flagSymptoms:
-        print msg,
-    elif flagHerb and flagProp:
         print msg,
     else:
         print "not found : "+msg
@@ -92,7 +71,7 @@ def main():
         filedir = sys.argv[1]
 
         upone_level = path.dirname(filedir.rstrip('/'))
-        destination_dir = upone_level+"/filtered"
+        destination_dir = upone_level+"/filtered3"
 
         # Create directory for store result file
         if not path.exists(destination_dir):
@@ -105,8 +84,7 @@ def main():
                             destination_dir, \
                             filename, \
                             herblist, \
-                            symptoms, \
-                            propoties)
+                            symptoms)
     else:
         print "Please, Enter File Directory"
 
